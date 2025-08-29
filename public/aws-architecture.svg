@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1080" height="520" viewBox="0 0 1080 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8ab4ff"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+    <style>
+      .panel{rx:16; fill:rgba(255,255,255,0.06); stroke:rgba(255,255,255,0.18)}
+      .title{fill:#e6e9ef; font:700 16px/1.2 system-ui,-apple-system,Segoe UI,Roboto}
+      .text{fill:#cbd5e1; font:500 12px/1.2 system-ui,-apple-system,Segoe UI,Roboto}
+      .label{fill:#cbd5e1; font:600 12px/1.2 system-ui,-apple-system,Segoe UI,Roboto}
+    </style>
+  </defs>
+  <rect width="1080" height="520" fill="#0b1020"/>
+
+  <!-- Edge / CDN -->
+  <g transform="translate(60,40)">
+    <rect class="panel" width="280" height="120"/>
+    <text class="title" x="16" y="36">CloudFront (CDN)</text>
+    <text class="text" x="16" y="64">Global edge cache for static assets</text>
+  </g>
+
+  <!-- Static hosting -->
+  <g transform="translate(60,190)">
+    <rect class="panel" width="280" height="120"/>
+    <text class="title" x="16" y="36">S3 Static Website</text>
+    <text class="text" x="16" y="64">Serves React build output</text>
+  </g>
+
+  <!-- DNS -->
+  <g transform="translate(60,360)">
+    <rect class="panel" width="280" height="120"/>
+    <text class="title" x="16" y="36">Route 53</text>
+    <text class="text" x="16" y="64">Custom domain + HTTPS (ACM)</text>
+  </g>
+
+  <!-- Compute -->
+  <g transform="translate(400,40)">
+    <rect class="panel" width="300" height="180"/>
+    <text class="title" x="16" y="36">ECS / EKS</text>
+    <text class="text" x="16" y="64">Container workloads behind ALB</text>
+    <text class="text" x="16" y="86">Auto Scaling, Health checks</text>
+  </g>
+
+  <!-- Data -->
+  <g transform="translate(400,260)">
+    <rect class="panel" width="300" height="220"/>
+    <text class="title" x="16" y="36">Data Layer</text>
+    <text class="text" x="16" y="64">RDS (SQL) / DynamoDB (NoSQL)</text>
+    <text class="text" x="16" y="86">S3 for object storage</text>
+  </g>
+
+  <!-- Observability -->
+  <g transform="translate(740,40)">
+    <rect class="panel" width="280" height="180"/>
+    <text class="title" x="16" y="36">CloudWatch</text>
+    <text class="text" x="16" y="64">Metrics, logs, alarms</text>
+  </g>
+
+  <!-- IAM / Security -->
+  <g transform="translate(740,260)">
+    <rect class="panel" width="280" height="220"/>
+    <text class="title" x="16" y="36">IAM & Security</text>
+    <text class="text" x="16" y="64">Least-privilege roles</text>
+    <text class="text" x="16" y="86">Secrets Manager / Parameter Store</text>
+  </g>
+
+  <!-- Connections -->
+  <path d="M340 100 H400" stroke="url(#g1)" stroke-width="3"/>
+  <path d="M340 250 H400" stroke="url(#g1)" stroke-width="3"/>
+  <path d="M550 220 V260" stroke="url(#g1)" stroke-width="3"/>
+  <path d="M700 130 H740" stroke="url(#g1)" stroke-width="3"/>
+  <path d="M700 370 H740" stroke="url(#g1)" stroke-width="3"/>
+
+  <!-- Legend -->
+  <g transform="translate(60,12)">
+    <rect rx="10" width="180" height="22" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.18)"/>
+    <text class="label" x="12" y="15">Example AWS architecture</text>
+  </g>
+</svg>

@@ -1,6 +1,38 @@
 import './App.css';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [activeId, setActiveId] = useState('hero');
+  const [showTop, setShowTop] = useState(false);
+
+  useEffect(() => {
+    const sectionIds = ['hero', 'about', 'pipeline', 'aws', 'tooling', 'deploy', 'contact'];
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveId(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: '-40% 0px -55% 0px', threshold: 0.01 }
+    );
+
+    sections.forEach((sec) => io.observe(sec));
+    const onScroll = () => setShowTop(window.scrollY > 400);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      io.disconnect();
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
+
+  const toTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
   return (
     <div className="App">
       {/* Animated background layers */}
@@ -28,13 +60,13 @@ function App() {
       <nav className="top-nav">
         <div className="brand">DevOps Journey</div>
         <div className="links">
-          <a href="#hero">Home</a>
-          <a href="#about">About</a>
-          <a href="#pipeline">CI/CD</a>
-          <a href="#aws">AWS</a>
-          <a href="#tooling">Tooling</a>
-          <a href="#deploy">Deployment</a>
-          <a href="#contact">Contact</a>
+          <a className={activeId === 'hero' ? 'active' : ''} href="#hero">Home</a>
+          <a className={activeId === 'about' ? 'active' : ''} href="#about">About</a>
+          <a className={activeId === 'pipeline' ? 'active' : ''} href="#pipeline">CI/CD</a>
+          <a className={activeId === 'aws' ? 'active' : ''} href="#aws">AWS</a>
+          <a className={activeId === 'tooling' ? 'active' : ''} href="#tooling">Tooling</a>
+          <a className={activeId === 'deploy' ? 'active' : ''} href="#deploy">Deployment</a>
+          <a className={activeId === 'contact' ? 'active' : ''} href="#contact">Contact</a>
         </div>
       </nav>
 
@@ -102,6 +134,9 @@ function App() {
               package → deploy. On main branch merges, an automated production
               release is triggered.
             </p>
+            <div className="diagram-wrap">
+              <img src="/pipeline-diagram.svg" alt="CI/CD pipeline diagram" className="diagram" />
+            </div>
             <div className="timeline">
               <div className="step">
                 <h4>1. Source & Lint</h4>
@@ -136,6 +171,9 @@ function App() {
               for static hosting, or ECS/EKS for containerized workloads with
               Application Load Balancers and auto scaling.
             </p>
+            <div className="diagram-wrap">
+              <img src="/aws-architecture.svg" alt="AWS reference architecture" className="diagram" />
+            </div>
             <div className="grid">
               <div className="tile">S3 + CloudFront</div>
               <div className="tile">Route 53</div>
@@ -199,7 +237,7 @@ function App() {
               something great.
             </p>
             <div className="contact-grid">
-              <a className="btn primary" href="mailto:example@example.com">Email Me</a>
+              <a className="btn primary" href="mailto:your.email@example.com">Email Me</a>
               <a className="btn ghost" href="#hero">Back to Top</a>
             </div>
           </div>
@@ -211,6 +249,12 @@ function App() {
           <small>© {new Date().getFullYear()} DevOps Journey • Built with React</small>
         </div>
       </footer>
+
+      {showTop && (
+        <button aria-label="Back to top" className="back-to-top" onClick={toTop}>
+          ↑
+        </button>
+      )}
     </div>
   );
 }
