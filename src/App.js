@@ -117,7 +117,7 @@ function App() {
         {/* About Section */}
         <section id="about" className="section">
           <div className="container reveal">
-            <h2>About the Project</h2>
+            <h2>About the Project hahahahaha</h2>
             <p>
               This project demonstrates how modern DevOps practices accelerate
               delivery while improving reliability. It includes branch-based
