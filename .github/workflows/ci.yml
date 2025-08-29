@@ -22,7 +22,11 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json  # important
 
-      - run: npm ci
+      - name: Install dependencies
+        run: npm ci # 'npm ci' is a safer and faster alternative to 'npm install'
+        # 'npm ci' ensures that the project is built with the exact dependencies
+        # listed in the package.json and package-lock.json files.
+        # It is recommended to use 'npm ci' instead of 'npm install' for CI/CD workflows.
       - run: npm test -- --watchAll=false
       - run: npm run build
 
