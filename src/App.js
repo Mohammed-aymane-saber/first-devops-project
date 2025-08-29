@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 function App() {
   const [activeId, setActiveId] = useState('hero');
   const [showTop, setShowTop] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const sectionIds = ['hero', 'about', 'pipeline', 'aws', 'tooling', 'deploy', 'contact'];
@@ -23,10 +24,33 @@ function App() {
     );
 
     sections.forEach((sec) => io.observe(sec));
-    const onScroll = () => setShowTop(window.scrollY > 400);
+
+    // Reveal-on-scroll observer
+    const revealTargets = Array.from(document.querySelectorAll('.reveal'));
+    const revealIO = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealIO.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
+    );
+    revealTargets.forEach((el) => revealIO.observe(el));
+
+    const onScroll = () => {
+      setShowTop(window.scrollY > 400);
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
+      setProgress(pct);
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => {
       io.disconnect();
+      revealIO.disconnect();
       window.removeEventListener('scroll', onScroll);
     };
   }, []);
@@ -35,6 +59,10 @@ function App() {
 
   return (
     <div className="App">
+      {/* Scroll progress bar (like GitHub) */}
+      <div className="progress-container" aria-hidden="true">
+        <div className="progress" style={{ width: `${progress}%` }} />
+      </div>
       {/* Animated background layers */}
       <div className="bg" aria-hidden="true">
         <div className="gradient" />
@@ -72,7 +100,7 @@ function App() {
 
       {/* Hero Section */}
       <header id="hero" className="hero">
-        <div className="hero-inner glass">
+        <div className="hero-inner glass reveal">
           <h1>Welcome to my first DevOps project</h1>
           <p>
             Fully automated with CI/CD, Infrastructure as Code, and cloud-native
@@ -88,7 +116,7 @@ function App() {
       <main>
         {/* About Section */}
         <section id="about" className="section">
-          <div className="container">
+          <div className="container reveal">
             <h2>About the Project</h2>
             <p>
               This project demonstrates how modern DevOps practices accelerate
@@ -127,7 +155,7 @@ function App() {
 
         {/* Pipeline Section */}
         <section id="pipeline" className="section alt">
-          <div className="container">
+          <div className="container reveal">
             <h2>CI/CD Pipeline</h2>
             <p>
               A typical run: lint → unit tests → build → security checks →
@@ -164,7 +192,7 @@ function App() {
 
         {/* AWS Section */}
         <section id="aws" className="section">
-          <div className="container">
+          <div className="container reveal">
             <h2>Running on AWS</h2>
             <p>
               Hosted using AWS services. Common architectures include S3 + CloudFront
@@ -187,7 +215,7 @@ function App() {
 
         {/* Tooling Section */}
         <section id="tooling" className="section alt">
-          <div className="container">
+          <div className="container reveal">
             <h2>Tooling</h2>
             <p>Languages, package managers, and CI providers used in the stack.</p>
             <ul className="pill-list">
@@ -205,7 +233,7 @@ function App() {
 
         {/* Deployment Section */}
         <section id="deploy" className="section">
-          <div className="container">
+          <div className="container reveal">
             <h2>Deployment Strategy</h2>
             <p>
               Uses environment-specific configuration and infrastructure
@@ -230,7 +258,7 @@ function App() {
 
         {/* Contact Section */}
         <section id="contact" className="section alt">
-          <div className="container">
+          <div className="container reveal">
             <h2>Contact</h2>
             <p>
               Want to learn more or collaborate? Reach out and let’s build
