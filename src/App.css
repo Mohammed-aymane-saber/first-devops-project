@@ -214,8 +214,41 @@ html { scroll-behavior: smooth; }
 }
 
 /* Reveal on scroll */
-.reveal { opacity: 0; transform: translateY(16px); transition: opacity 500ms ease, transform 500ms ease; }
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 700ms ease-out, transform 700ms ease-out; }
 .reveal.visible { opacity: 1; transform: none; }
+
+/* Stagger children when a container with .reveal becomes visible */
+.container.reveal > *,
+.hero-inner.reveal > * {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 1000ms ease-out, transform 1000ms ease-out;
+}
+
+.container.reveal.visible > *,
+.hero-inner.reveal.visible > * { opacity: 1; transform: none; }
+
+/* Stagger steps: adjust as needed for typical child counts */
+.container.reveal.visible > *:nth-child(1),
+.hero-inner.reveal.visible > *:nth-child(1) { transition-delay: 60ms; }
+.container.reveal.visible > *:nth-child(2),
+.hero-inner.reveal.visible > *:nth-child(2) { transition-delay: 120ms; }
+.container.reveal.visible > *:nth-child(3),
+.hero-inner.reveal.visible > *:nth-child(3) { transition-delay: 180ms; }
+.container.reveal.visible > *:nth-child(4),
+.hero-inner.reveal.visible > *:nth-child(4) { transition-delay: 240ms; }
+.container.reveal.visible > *:nth-child(5),
+.hero-inner.reveal.visible > *:nth-child(5) { transition-delay: 300ms; }
+.container.reveal.visible > *:nth-child(6),
+.hero-inner.reveal.visible > *:nth-child(6) { transition-delay: 360ms; }
+.container.reveal.visible > *:nth-child(7),
+.hero-inner.reveal.visible > *:nth-child(7) { transition-delay: 420ms; }
+.container.reveal.visible > *:nth-child(8),
+.hero-inner.reveal.visible > *:nth-child(8) { transition-delay: 480ms; }
+.container.reveal.visible > *:nth-child(9),
+.hero-inner.reveal.visible > *:nth-child(9) { transition-delay: 540ms; }
+.container.reveal.visible > *:nth-child(10),
+.hero-inner.reveal.visible > *:nth-child(10) { transition-delay: 600ms; }
 
 .glass {
   background: linear-gradient(
@@ -431,6 +464,9 @@ main { position: relative; z-index: 1; }
   .bg .twinkles,
   .bg .orbs span,
   .App-logo { animation: none !important; }
+  .reveal,
+  .container.reveal > *,
+  .hero-inner.reveal > * { transition: none !important; }
 }
 
 /* Responsive */
