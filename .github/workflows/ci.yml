@@ -15,14 +15,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
-          node-version: '16'   # use '16' if you must
+          node-version: '16'
           cache: 'npm'
-          cache-dependency-path: devops-app/package-lock.json
+          cache-dependency-path: package-lock.json  # important
+
       - run: npm ci
       - run: npm test -- --watchAll=false
       - run: npm run build
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
