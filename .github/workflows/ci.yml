@@ -14,21 +14,24 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '16'
           cache: 'npm'
-          cache-dependency-path: package-lock.json  # important
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        run: npm ci # 'npm ci' is a safer and faster alternative to 'npm install'
-        # 'npm ci' ensures that the project is built with the exact dependencies
-        # listed in the package.json and package-lock.json files.
-        # It is recommended to use 'npm ci' instead of 'npm install' for CI/CD workflows.
-      - run: npm test -- --watchAll=false
-      - run: npm run build
+        run: npm ci
+
+      - name: Run tests
+        run: npm test -- --watchAll=false
+
+      - name: Build React app
+        run: npm run build
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
